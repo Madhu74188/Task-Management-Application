@@ -1,25 +1,62 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Task Management App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Task Management</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <div class="container">
+    <header class="navbar">
+        <div>
+            <h2>TaskFlow</h2>
+            <p>Plan your work. Track your progress.</p>
+        </div>
+        <span id="totalTasks">0 Tasks</span>
+    </header>
 
-        <h1>Task Management App</h1>
+    <main class="container">
 
-        <input type="text" id="taskInput" placeholder="Enter a task">
+        <h1>Task Management Dashboard</h1>
+        <p class="subtitle">Organize your daily tasks in one place.</p>
 
-        <button id="addButton">Add Task</button>
+        <div class="add-task">
+            <input type="text" id="taskInput"
+                   placeholder="Enter a new task...">
+            <button id="addButton">+ Add Task</button>
+        </div>
 
-        <ul id="taskList"></ul>
+        <div class="task-board">
 
-    </div>
+            <section class="task-column">
+                <div class="column-heading">
+                    <h3>Pending</h3>
+                    <span id="pendingCount">0</span>
+                </div>
+                <div id="pendingTasks" class="task-list"></div>
+            </section>
+
+            <section class="task-column">
+                <div class="column-heading">
+                    <h3>Ongoing</h3>
+                    <span id="ongoingCount">0</span>
+                </div>
+                <div id="ongoingTasks" class="task-list"></div>
+            </section>
+
+            <section class="task-column">
+                <div class="column-heading">
+                    <h3>Completed</h3>
+                    <span id="completedCount">0</span>
+                </div>
+                <div id="completedTasks" class="task-list"></div>
+            </section>
+
+        </div>
+    </main>
 
     <script src="script.js"></script>
-
 </body>
 </html>
