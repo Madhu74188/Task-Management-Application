@@ -1,3 +1,4 @@
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -6,14 +7,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-mongoose.connect("mongodb://127.0.0.1:27017/taskdb")
-    .then(() => {
-        console.log("MongoDB Connected");
-    })
-    .catch((err) => {
-        console.log("MongoDB Error:", err);
-    });
 
 const Task = require("./models/task");
 
@@ -30,19 +23,13 @@ app.get("/tasks", async (req, res) => {
 // ADD task
 app.post("/tasks", async (req, res) => {
     try {
-        console.log("POST RECEIVED:", req.body);
-
         const task = new Task({
             title: req.body.title
         });
 
         await task.save();
-
-        console.log("SAVED:", task);
-
         res.json(task);
     } catch (error) {
-        console.log(error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -57,6 +44,28 @@ app.delete("/tasks/:id", async (req, res) => {
     }
 });
 
-app.listen(5000, () => {
-    console.log("Server running on http://localhost:5000");
-});
+// Connect MongoDB and start server
+const PORT = process.env.PORT || 5000;
+
+async function startServer() {
+    try {
+        if (!process.env.MONGO_URI) {
+            throw new Error("MONGO_URI is missing");
+        }
+
+        await mongoose.connect(process.env.MONGO_URI, {
+            dbName: "taskmanager"
+        });
+
+        console.log("MongoDB Atlas Connected");
+
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error("Server startup error:", error);
+        process.exit(1);
+    }
+}
+
+startServer();
